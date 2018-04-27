@@ -1,22 +1,23 @@
-#define GLFW_INCLUDE_VULKAN
 #include <iostream>
-#include <GLFW/glfw3.h>
-
+#include <stdexcept>
+#include "utils/log.h"
+#include "game.h"
 
 int main()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "lava", nullptr, nullptr);
+	LavaEngine::Game game;
 
-	std::cout << "LAVA ENGINE" << std::endl;
-
-	while(!glfwWindowShouldClose(window))
+	try
 	{
-		glfwPollEvents();
+		game.run();
+	}
+	catch(const std::runtime_error& e)
+	{
+		LavaEngine::Utils::Log::error(e.what());
+		return -1;
 	}
 
-	glfwDestroyWindow(window);
-	glfwTerminate();
+	game.clean();
+
 	return 0;
 }

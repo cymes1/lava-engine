@@ -1,10 +1,9 @@
-if(WIN32)
-	set(CMAKE_CXX_FLAGS "-Wall -std=gnu++11")
-else()
-	set(CMAKE_CXX_FLAGS "-Wall -std=c++11")
-endif()
+add_executable(lava main.cpp game.cpp)
 
-add_executable(lava main.cpp)
+add_subdirectory(utils)
+add_subdirectory(graphics)
 
 target_link_libraries(lava Vulkan::Vulkan)
 target_link_libraries(lava glfw)
+target_link_libraries(lava logging)
+target_link_libraries(lava graphics)
