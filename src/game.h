@@ -3,6 +3,7 @@
 
 #include "graphics/window.h"
 #include "graphics/vulkaninstance.h"
+#include "graphics/physicaldevice.h"
 
 namespace LavaEngine {
 
@@ -11,6 +12,7 @@ namespace LavaEngine {
 	private:
 		Graphics::Window m_window;
 		Graphics::VulkanInstance m_instance;
+		Graphics::PhysicalDevice m_physicalDevice;
 
 	public:
 		Game();

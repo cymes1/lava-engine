@@ -75,7 +75,7 @@ namespace LavaEngine { namespace Graphics {
 		vkDestroyInstance(m_instance, nullptr);
 	}
 
-	VkInstance VulkanInstance::instance()
+	VkInstance VulkanInstance::handle()
 	{
 		return m_instance;
 	}

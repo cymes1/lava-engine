@@ -1,1 +1,1 @@
-add_library (logging log.cpp)
+add_library (logging log.cpp utils.cpp)

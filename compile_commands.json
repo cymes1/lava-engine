@@ -15,6 +15,11 @@
   "file": "/home/cymes/projekty/lava-engine/src/utils/log.cpp"
 },
 {
+  "directory": "/home/cymes/projekty/lava-engine/build/src/utils",
+  "command": "/usr/bin/c++    -g   -o CMakeFiles/logging.dir/utils.cpp.o -c /home/cymes/projekty/lava-engine/src/utils/utils.cpp",
+  "file": "/home/cymes/projekty/lava-engine/src/utils/utils.cpp"
+},
+{
   "directory": "/home/cymes/projekty/lava-engine/build/src/graphics",
   "command": "/usr/bin/c++  -DGLFW_DLL  -g   -o CMakeFiles/graphics.dir/window.cpp.o -c /home/cymes/projekty/lava-engine/src/graphics/window.cpp",
   "file": "/home/cymes/projekty/lava-engine/src/graphics/window.cpp"
@@ -23,5 +28,15 @@
   "directory": "/home/cymes/projekty/lava-engine/build/src/graphics",
   "command": "/usr/bin/c++  -DGLFW_DLL  -g   -o CMakeFiles/graphics.dir/vulkaninstance.cpp.o -c /home/cymes/projekty/lava-engine/src/graphics/vulkaninstance.cpp",
   "file": "/home/cymes/projekty/lava-engine/src/graphics/vulkaninstance.cpp"
+},
+{
+  "directory": "/home/cymes/projekty/lava-engine/build/src/graphics",
+  "command": "/usr/bin/c++  -DGLFW_DLL  -g   -o CMakeFiles/graphics.dir/physicaldevice.cpp.o -c /home/cymes/projekty/lava-engine/src/graphics/physicaldevice.cpp",
+  "file": "/home/cymes/projekty/lava-engine/src/graphics/physicaldevice.cpp"
+},
+{
+  "directory": "/home/cymes/projekty/lava-engine/build/src/graphics",
+  "command": "/usr/bin/c++  -DGLFW_DLL  -g   -o CMakeFiles/graphics.dir/device.cpp.o -c /home/cymes/projekty/lava-engine/src/graphics/device.cpp",
+  "file": "/home/cymes/projekty/lava-engine/src/graphics/device.cpp"
 }
 ]

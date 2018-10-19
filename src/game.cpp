@@ -4,7 +4,9 @@
 namespace LavaEngine {
 
 	Game::Game()
-		: m_window(800, 600, "lava"), m_instance("lava-engine")
+		: m_window(800, 600, "lava"),
+		m_instance("lava-engine"),
+		m_physicalDevice(m_instance.handle())
 	{
 	}
 

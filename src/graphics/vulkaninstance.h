@@ -27,7 +27,7 @@ namespace LavaEngine { namespace Graphics {
 		VulkanInstance(const char* title);
 		~VulkanInstance();
 
-		VkInstance instance();
+		VkInstance handle();
 
 	private:
 		std::vector<const char*> getExtensions();
