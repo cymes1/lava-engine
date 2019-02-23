@@ -6,7 +6,8 @@ namespace LavaEngine { namespace Graphics {
 	std::string deviceTypeToString(VkPhysicalDeviceType deviceType);
 #endif
 
-	PhysicalDevice::PhysicalDevice(const VkInstance& vulkanInstance)
+	PhysicalDevice::PhysicalDevice(const VkInstance& vulkanInstance, const Surface& surface)
+		: m_surface(surface)
 	{
 		uint32_t physicalDeviceCount;
 		vkEnumeratePhysicalDevices(vulkanInstance, &physicalDeviceCount, nullptr);
@@ -20,12 +21,17 @@ namespace LavaEngine { namespace Graphics {
 
 	PhysicalDevice::~PhysicalDevice() {}
 
-	VkPhysicalDevice PhysicalDevice::handle()
+	VkPhysicalDevice PhysicalDevice::handle() const
 	{
 		return m_physicalDevice;
 	}
 
-	int PhysicalDevice::graphicalQueueIndex()
+	int PhysicalDevice::presentationQueueIndex() const
+	{
+		return m_presentationQueueIndex;
+	}
+
+	int PhysicalDevice::graphicalQueueIndex() const
 	{
 		return m_graphicalQueueIndex;
 	}
@@ -110,18 +116,30 @@ namespace LavaEngine { namespace Graphics {
 		std::vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyPropertiesCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyPropertiesCount, queueFamilyProperties.data());
 
+		bool isGraphicalQueueFound;
+		bool isPresentationQueueFound;
+
 		int i = 0;
 		for(VkQueueFamilyProperties queueFamily : queueFamilyProperties)
 		{
+			// graphical queue
 			if(queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 			{
 				m_graphicalQueueIndex = i;
-				return true;
+				isGraphicalQueueFound = true;
+			}
+			// presentational queue
+			VkBool32 isPresentationSupported;
+			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_surface.handle(), &isPresentationSupported);
+			if(queueFamily.queueCount > 0 && isPresentationSupported)
+			{
+				m_presentationQueueIndex = i;
+				isPresentationQueueFound = true;
 			}
 			++i;
 		}
 
-		return false;
+		return isGraphicalQueueFound && isPresentationQueueFound;
 	}
 
 #ifndef NDEBUG

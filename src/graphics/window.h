@@ -17,7 +17,7 @@ namespace LavaEngine { namespace Graphics {
 		Window(int width, int height, const char* title);
 		~Window();
 
-		GLFWwindow* handler();
+		GLFWwindow* handle();
 	};
 }}
 

@@ -1,0 +1,6 @@
+- zmienić flagę NDEBUG na kilka flag tematycznych ustawianych z poziomu CMake
+- przenieś requested layers z vulkaninstance.cpp do pliku xml lub conf
+- przenieś potrzebne rozszerzenia z vulkaninstance.cpp do pliku xml lub conf
+- dodać sprawdzanie czy szukane rozszerzenia są dostępne
+- rozwinąć wybieranie fizycznego urządzenia
+- dodać interaktywne menu wybierania fizycznego urządzenia

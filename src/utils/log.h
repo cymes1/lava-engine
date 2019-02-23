@@ -2,6 +2,7 @@
 #define LOG_H
 
 #include <iostream>
+#include <string>
 
 namespace LavaEngine { namespace Utils {
 

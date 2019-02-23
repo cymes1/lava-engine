@@ -41,8 +41,10 @@ namespace LavaEngine { namespace Graphics {
 			}
 		#endif
 
-		// get layers
-		std::vector<const char*> layers = getLayers();
+		// required layers
+		m_requiredLayers = new std::vector<const char*>(1);
+		(*m_requiredLayers)[0] = "VK_LAYER_LUNARG_standard_validation";
+		checkLayers();
 
 		// get extensions
 		std::vector<const char*> extensions = getExtensions();
@@ -53,8 +55,8 @@ namespace LavaEngine { namespace Graphics {
 		createInfo.pNext = nullptr;
 		createInfo.flags = 0;
 		createInfo.pApplicationInfo = &appInfo;
-		createInfo.enabledLayerCount = static_cast<uint32_t>(layers.size());
-		createInfo.ppEnabledLayerNames = layers.data();
+		createInfo.enabledLayerCount = static_cast<uint32_t>(m_requiredLayers->size());
+		createInfo.ppEnabledLayerNames = m_requiredLayers->data();
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
 		createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -70,23 +72,24 @@ namespace LavaEngine { namespace Graphics {
 
 	VulkanInstance::~VulkanInstance()
 	{
+		delete m_requiredLayers;
 		if(ENABLE_VALIDATION_LAYERS)
 			destroyDebugReportCallbackEXT(m_instance, m_debugCallback, nullptr);
 		vkDestroyInstance(m_instance, nullptr);
 	}
 
-	VkInstance VulkanInstance::handle()
+	VkInstance VulkanInstance::handle() const
 	{
 		return m_instance;
 	}
 
-	std::vector<const char*> VulkanInstance::getLayers()
+	std::vector<const char*>* VulkanInstance::requiredLayers() const
 	{
-		// requested layers
-		std::vector<const char*> layers = {
-			"VK_LAYER_LUNARG_standard_validation"
-		};
+		return m_requiredLayers;
+	}
 
+	void VulkanInstance::checkLayers()
+	{
 		// querying supported layers
 		uint32_t supportedLayersCount;
 		vkEnumerateInstanceLayerProperties(&supportedLayersCount, nullptr);
@@ -104,8 +107,8 @@ namespace LavaEngine { namespace Graphics {
 #endif
 
 		// check if supported
-		int layersToFind = layers.size();
-		for(const char* layer : layers)
+		int layersToFind = m_requiredLayers->size();
+		for(const char* layer : *m_requiredLayers)
 			for(const VkLayerProperties& supportedLayerProperties : supportedLayers)
 				if(!strcmp(layer, supportedLayerProperties.layerName))
 				{
@@ -114,9 +117,6 @@ namespace LavaEngine { namespace Graphics {
 				}
 		if(layersToFind)
 			throw std::runtime_error("requested layers are not supported");
-
-		// return requested layers
-		return layers;
 	}
 
 	std::vector<const char*> VulkanInstance::getExtensions()

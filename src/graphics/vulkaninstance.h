@@ -13,25 +13,28 @@ namespace LavaEngine { namespace Graphics {
 
 	class VulkanInstance
 	{
-	private:
+	public:
 #ifdef NDEBUG
-		const bool ENABLE_VALIDATION_LAYERS = false;
+		const static bool ENABLE_VALIDATION_LAYERS = false;
 #else
-		const bool ENABLE_VALIDATION_LAYERS = true;
+		const static bool ENABLE_VALIDATION_LAYERS = true;
 #endif
 
+	private:
 		VkInstance m_instance;
 		VkDebugReportCallbackEXT m_debugCallback;
+		std::vector<const char*>* m_requiredLayers;
 
 	public:
 		VulkanInstance(const char* title);
 		~VulkanInstance();
 
-		VkInstance handle();
+		VkInstance handle() const;
+		std::vector<const char*>* requiredLayers() const;
 
 	private:
+		void checkLayers();
 		std::vector<const char*> getExtensions();
-		std::vector<const char*> getLayers();
 		void setupDebugCallback();
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 				VkDebugReportFlagsEXT flags,

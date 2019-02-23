@@ -2,7 +2,7 @@
 
 namespace LavaEngine { namespace Graphics {
 
-	Device::Device(const PhysicalDevice& physicalDevice)
+	Device::Device(const VulkanInstance& instance, const PhysicalDevice& physicalDevice)
    	{
 		// specify queues to be created
 		float queuePriority = 1.0f;
@@ -17,17 +17,33 @@ namespace LavaEngine { namespace Graphics {
 		VkPhysicalDeviceFeatures deviceFeatures = {};
 
 		// create logical device
-		VkDeviceCreateInfo createInfo;
+		VkDeviceCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 		createInfo.pQueueCreateInfos = &queueCreateInfo;
 		createInfo.queueCreateInfoCount = 1;
 		createInfo.pEnabledFeatures = &deviceFeatures;
 		createInfo.enabledExtensionCount = 0;
+		createInfo.flags = 0;
+
+		if(VulkanInstance::ENABLE_VALIDATION_LAYERS)
+		{
+			std::vector<const char*>* layers = instance.requiredLayers();
+			createInfo.enabledLayerCount = static_cast<uint32_t>(layers->size());
+			createInfo.ppEnabledLayerNames = layers->data();
+		}
+		else
+			createInfo.enabledLayerCount = 0;
+
+		if(vkCreateDevice(physicalDevice.handle(), &createInfo, nullptr, &m_device) != VK_SUCCESS)
+			throw std::runtime_error("failed to create logical device");
 	}
 
-	Device::~Device() {}
+	Device::~Device()
+	{
+		vkDestroyDevice(m_device, nullptr);
+	}
 
-	VkDevice Device::handle()
+	VkDevice Device::handle() const
 	{
 		return m_device;
 	}

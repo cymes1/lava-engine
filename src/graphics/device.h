@@ -2,6 +2,8 @@
 #define DEVICE_H
 
 #include <vulkan/vulkan.h>
+#include "../utils/log.h"
+#include "vulkaninstance.h"
 #include "physicaldevice.h"
 
 namespace LavaEngine { namespace Graphics {
@@ -12,10 +14,10 @@ namespace LavaEngine { namespace Graphics {
 		VkDevice m_device;
 
 	public:
-		Device(const PhysicalDevice& physicalDevice);
+		Device(const VulkanInstance& instance, const PhysicalDevice& physicalDevice);
 		~Device();
 
-		VkDevice handle();
+		VkDevice handle() const;
 	};
 
 }}

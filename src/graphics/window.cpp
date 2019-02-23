@@ -16,7 +16,7 @@ namespace LavaEngine { namespace Graphics {
 		glfwTerminate();
 	}
 
-	GLFWwindow* Window::handler()
+	GLFWwindow* Window::handle()
 	{
 		return m_window;
 	}
